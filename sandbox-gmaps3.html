@@ -192,8 +192,15 @@ var app = (function () {
             google.maps.event.addListener(gmap, 'tilesloaded', function () {
                 if (!this.loaded) {
                     this.loaded = true;
+                    var url_string = window.location.href
+                    var url = new URL(url_string);
+                    var val = url.searchParams.get("wkt");
+                    if (val === null) {
+                      val = 'MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)), ((20 35, 10 30, 10 10, 30 5, 45 20, 20 35), (30 20, 20 15, 20 25, 30 20)))';
+                    }
+
                     // NOTE: We start with a MULTIPOLYGON; these aren't easily deconstructed, so we won't set this object to be editable in this example
-                    document.getElementById('wkt').value = 'MULTIPOLYGON (((40 40, 20 45, 45 30, 40 40)), ((20 35, 10 30, 10 10, 30 5, 45 20, 20 35), (30 20, 20 15, 20 25, 30 20)))';
+                    document.getElementById('wkt').value = val;
                     app.mapIt();
                 }
             });
